@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observer Patter</title>
+    
+    <style media="screen">
+        .square {
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            display: inline-block;
+            margin-right: 10px;
+            background-color: black;
+            color: white;
+            font-size: 150%;
+            font-family: sans-serif;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="square" id="elementObserver1"></div>
+    <hr>
+    <button class="button" onClick="model.increment()">Increment</button>
+
+    
+    <script src="js/StateModel.js" charset="utf-8"></script>
+    <script src="js/ElementObserver.js" charset="utf-8"></script>
+    <script src="js/ConsoleObserver.js" charset="utf-8"></script>
+    <script src="js/HistoryObserver.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        
+        // State Model:
+        // - provides the increment method
+        // - provides a way for Observers to subscribe using the addObserver method
+        const model = new StateModel();
+
+        /** Instantiate Observer Instances */
+
+        // elementObserver1 controls the color and value of the square element
+        const elementObserver1 = new ElementObserver('elementObserver1');
+
+        // consoleObserver provides the current values of the State Model provided in the console
+        const consoleObserver = new ConsoleObserver()
+
+        // historyObserver provides the history of the State Model provided in the console
+        const historyObserver = new HistoryObserver()
+
+        /** Subscribe Observer Instances to the StateModel */
+        model.addObserver(elementObserver1);
+        model.addObserver(consoleObserver);
+        model.addObserver(historyObserver);
+
+        // optionalally notifiy observers on load
+        // this will:
+        // - update the square element with the default properties assigned in the State Model constructor
+        // - console log the current state
+        // - console log the state models history
+        model.notifyObservers();
+    </script>
+</body>
+</html>
